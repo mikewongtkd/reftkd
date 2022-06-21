@@ -29,7 +29,7 @@ if( isset( $_GET[ 'message' ])):
 	});
 	</script>
 <?php endif; ?>
-		<title>Axial Length Growth</title>
+		<title>RefTKD - Taekwondo Referee Development Management System</title>
 		<style>
 		.title-card {
 			position: absolute;
@@ -42,6 +42,10 @@ if( isset( $_GET[ 'message' ])):
 			width: 320px;
 			transform: translateX( -50% );
 			text-align: center;
+		}
+
+		.title-card .subtitle {
+			color: #666;
 		}
 
 		body { overflow-y: hidden; background-color: #ebebeb; }
@@ -74,16 +78,24 @@ if( isset( $_GET[ 'message' ])):
 <?php include( 'components/header.php' ); ?>
 
 <div class="og-contents">
-	<img src="images/sf.png" />
+<?php
+	$images = array_values( array_filter( scandir( 'images/backgrounds' ), function ( $x ) { return preg_match( '/\.jpe?g/i', $x ); }));
+	$n      = count( $images ) - 1;
+	$i      = rand( 0, $n );
+	$image  = $images[ $i ];
+?>
+	<img src="/images/backgrounds/<?= $image ?>" />
 	<div class="title-card">
-		<h1><span class="text-primary">Axial Length</span><br>Growth</span></h1>
+		<h1><span class="text-primary">RefTKD</span></h1>
+		<p class="subtitle">Taekwondo Referee Development Management System</p>
 	</div>
-<?php if( isset( $_SESSION[ 'role' ])): ?>
+<?php if( $user->is_auth()): ?>
 	<div class="btn-group-vertical" id="btn-actions">
-		<a class="btn btn-lg btn-primary text-light" href="plot.php">Plots &amp; Models</a>
-		<a class="btn btn-lg btn-primary text-light" href="data.php">Participants &amp; Measurements</a>
-		<a class="btn btn-lg btn-primary text-light" href="admin.php">Centers &amp; Staff</a>
-		<a class="btn btn-lg btn-primary text-light" href="about.php">About the HVFQI</a>
+		<a class="btn btn-lg btn-primary text-light" href="sankey.php">Network Flow (Sankey) Diagram</a>
+		<a class="btn btn-lg btn-primary text-light" href="levels.php">Referee Breakdown by Levels</a>
+		<a class="btn btn-lg btn-primary text-light" href="admin.php">Manage Referee Records</a>
+		<a class="btn btn-lg btn-primary text-light" href="map.php">Find Referees Near a Venue</a>
+		<a class="btn btn-lg btn-primary text-light" href="about.php">About RefTKD</a>
 	</div>
 <?php else: ?>
 	<form id="login">

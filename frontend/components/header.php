@@ -16,14 +16,16 @@
     </style>
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="navbar-header">
-        <a class="navbar-brand" style="color: white; font-weight: bold;" href="index.php">Axial Length</a>
+        <a class="navbar-brand" style="color: white; font-weight: bold;" href="index.php">Ref<span style="color: #33ccff;">TKD</span></a>
       </div>
       <div id="navbar">
         <ul class="nav navbar-nav mr-auto">
 <?php if( $user->is_auth()): ?>
-          <li><a href="plot.php">Plots &amp; Models</a></li>
-          <li><a href="data.php">Participants &amp; Measurements</a></li>
-          <li><a href="admin.php">Centers &amp; Staff</a></li>
+          <li><a href="sankey.php">Network Flow (Sankey) Diagram</a></li>
+          <li><a href="data.php">Referee Breakdown by Levels</a></li>
+          <li><a href="admin.php">Manage Referee Records</a></li>
+          <li><a href="map.php">Find Referees Near a Venue</a></li>
+          <li><a href="about.php">About RefTKD</a></li>
 <?php endif; ?>
           <li><a href="about.php">About</a></li>
         </ul>
