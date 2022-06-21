@@ -38,8 +38,8 @@ if( isset( $_GET[ 'message' ])):
 			background: rgba( 255, 255, 255, 0.925 );
 			border: 1px solid #666;
 			border-radius: 12px;
-			padding: 12px;
-			width: 320px;
+			padding: 0 12px 12px 12px;
+			width: 400px;
 			transform: translateX( -50% );
 			text-align: center;
 		}
@@ -55,7 +55,7 @@ if( isset( $_GET[ 'message' ])):
 			width: 320px;
 			position: absolute;
 			left: 50%;
-			top: 50%;
+			top: 70%;
 			transform: translateX( -50% ) translateY( -30% );
 			border-radius: 12px;
 		}
@@ -71,6 +71,20 @@ if( isset( $_GET[ 'message' ])):
 		}
 
 		#btn-actions .btn-primary { border-color: #163c61; }
+		
+		#img-org-logo {
+			position: absolute;
+			top: 120px;
+			left: 60px;
+			width: 200px;
+		}
+
+		#img-ref-logo {
+			position: absolute;
+			top: calc( 90% - 120px );
+			left: 90%;
+			width: 120px;
+		}
 
 		</style>
 	</head>
@@ -85,6 +99,8 @@ if( isset( $_GET[ 'message' ])):
 	$image  = $images[ $i ];
 ?>
 	<img src="/images/backgrounds/<?= $image ?>" />
+	<img src="/images/cuta-logo.png" id="img-org-logo">
+	<img src="/images/referee-white-text.png" id="img-ref-logo">
 	<div class="title-card">
 		<h1><span class="text-primary">RefTKD</span></h1>
 		<p class="subtitle">Taekwondo Referee Development Management System</p>
