@@ -42,7 +42,7 @@
 $( '#btn-logout' ).off( 'click' ).click( async ( ev ) => {
   await $.post( '/security/auth.php?logout', {} )
   .then( async( response ) => {
-    window.location = 'index.php?message=<?= urlencode( base64_encode( "See you later {$user->name}")) ?>';
+    window.location = 'index.php?message=<?= urlencode( base64_encode( "See you later {$user->fname}")) ?>';
   })
   .catch( async( error ) => {
     await Swal.fire( 'Logout failed', 'Contact the system owner or development team', 'error' );

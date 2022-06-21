@@ -80,12 +80,16 @@ class User {
 	public  $uuid;
 	public  $id;
 	public  $name;
+	public  $fname;
+	public  $lname;
 	private $role;
 	private $policy;
 
 	function __construct() {
 		$this->uuid   = User::session( 'uuid' );
-		$this->id     = User::session( 'id' );
+		$this->email  = User::session( 'email' );
+		$this->fname  = User::session( 'fname' );
+		$this->lname  = User::session( 'lname' );
 		$this->name   = User::session( 'name' );
 		$this->role   = User::session( 'role' );
 		$this->policy = new Policy();
