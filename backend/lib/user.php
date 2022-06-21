@@ -8,8 +8,6 @@ class User {
 
 	function __construct() {
 		$this->uuid   = User::_session( 'uuid' );
-		$this->id     = User::_session( 'id' );
-		$this->center = User::_session[ 'center' );
 		$roles        = User::_session( 'roles' );
 		if( $roles ) { $this->roles = json_decode( $roles, true ); }
 		else         { $this->roles = null; }

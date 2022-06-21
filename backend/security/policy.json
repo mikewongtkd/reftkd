@@ -1,0 +1,23 @@
+{
+	"roles" : {
+		"admin" : {
+			"referees"     : { "all" : "full" },
+			"events"       : { "all" : "full" },
+			"achievements" : { "all" : "full" }
+		},
+		"referee" : {
+			"about"        : { "all"  : "read" },
+			"referees"     : { "self" : "full" },
+			"events"       : { "all"  : "read" },
+			"achievements" : { "all"  : "read" }
+		}
+	},
+	"icons" : {
+		"admin" : "crown",
+		"referee" : "user-tie"
+	},
+	"group_rank" : {
+		"self" : 0,
+		"all" : 1
+	}
+}

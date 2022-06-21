@@ -1,0 +1,9 @@
+{
+	"gender" : [
+		{ "code" : "f", "label" : "Female" },
+		{ "code" : "m", "label" : "Male" },
+		{ "code" : "t", "label" : "Transgender" },
+		{ "code" : "n", "label" : "Nonbinary" },
+		{ "code" : "-", "label" : "Prefer to not declare" }
+	]
+}

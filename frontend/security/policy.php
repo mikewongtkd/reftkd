@@ -5,13 +5,10 @@ class Policy {
 	private static $roles         = null;
 	public  static $FA_ICONS      = null;
 	public  static $GROUP_RANK    = null;
-	public  static $HAS_CENTER    = null;
-	public  const  ROLE_OWNER     = 'owner';
 	public  const  ROLE_ADMIN     = 'admin';
-	public  const  ROLE_CLINICIAN = 'clinician';
+	public  const  ROLE_REFEREE   = 'referee';
 	public  const  ROLE_ANY       = 'any';
 	public  const  GROUP_ALL      = 'all';
-	public  const  GROUP_CENTER   = 'center';
 	public  const  GROUP_SELF     = 'self';
 	public  const  READ_ACCESS    = 'read';
 	public  const  FULL_ACCESS    = 'full';
@@ -24,7 +21,6 @@ class Policy {
 			self::$roles      = $policy[ 'roles' ];
 			self::$FA_ICONS   = $policy[ 'icons' ];
 			self::$GROUP_RANK = $policy[ 'group_rank' ];
-			self::$HAS_CENTER = $policy[ 'has_center' ];
 		}
 	}
 
@@ -68,13 +64,11 @@ class Policy {
 		return $roles;
 	}
 
-	function groups( $feature, $same_center = false, $is_self = false) {
+	function groups( $feature, $is_self = false) {
 		$group_rank = Policy::$GROUP_RANK;
 		$groups     = [ Policy::GROUP_ALL ];
-		$has_center = in_array( $feature, Policy::$HAS_CENTER );
-		$is_users   = $feature == 'users';
-		if( $is_users   && $is_self     ) { $groups []= Policy::GROUP_SELF;   }
-		if( $has_center && $same_center ) { $groups []= Policy::GROUP_CENTER; }
+		$is_refs    = $feature == 'referees';
+		if( $is_refs && $is_self ) { $groups []= Policy::GROUP_SELF;   }
 
 		usort( $groups, function ( $a, $b ) use ($group_rank) { return $group_rank[ $a ] - $group_rank[ $b ]; });
 
@@ -84,7 +78,6 @@ class Policy {
 
 class User {
 	public  $uuid;
-	public  $center;
 	public  $id;
 	public  $name;
 	private $role;
@@ -92,20 +85,18 @@ class User {
 
 	function __construct() {
 		$this->uuid   = User::session( 'uuid' );
-		$this->center = User::session( 'center' );
 		$this->id     = User::session( 'id' );
-		$this->name   = "{$this->center}{$this->id}";
+		$this->name   = User::session( 'name' );
 		$this->role   = User::session( 'role' );
 		$this->policy = new Policy();
 	}
 
 	function is_auth() { return isset( $this->role ); }
 
-	function access( $feature, $center = null, $uuid = null ) {
+	function access( $feature, $uuid = null ) {
 		$permissions = $this->policy->permissions( $this->role, $feature );
-		$same_center = $center == $this->center;
 		$is_self     = $uuid == $this->uuid;
-		$groups      = $this->policy->groups( $feature, $same_center, $is_self );
+		$groups      = $this->policy->groups( $feature, $is_self );
 
 		foreach( $groups as $group ) {
 			if( ! array_key_exists( $group, $permissions )) { continue; }
@@ -114,13 +105,13 @@ class User {
 		return null;
 	}
 
-	function full_access( $feature, $center = null, $uuid = null ) {
-		$access = $this->access( $feature, $center, $uuid );
+	function full_access( $feature, $uuid = null ) {
+		$access = $this->access( $feature, $uuid );
 		return $access == Policy::FULL_ACCESS;
 	}
 
-	function read_access( $feature, $center = null, $uuid = null ) {
-		$access = $this->access( $feature, $center, $uuid );
+	function read_access( $feature, $uuid = null ) {
+		$access = $this->access( $feature, $uuid );
 		return $access == Policy::READ_ACCESS || $access == Policy::FULL_ACCESS;
 	}
 	
