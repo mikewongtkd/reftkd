@@ -10,9 +10,25 @@
 		<link href="https://fonts.googleapis.com/css2?family=News+Cycle:wght@400;700&family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.4.1/dist/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.4.17/dist/sweetalert2.all.min.js"></script>kkj
+<!--
+		<link rel="stylesheet" href="include/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="include/bootstrap/bootstrap-theme.min.css">
+		<link rel="stylesheet" href="include/font-awesome/all.min.css">
+		<link rel="stylesheet" href="include/sweetalert2/sweetalert2.min.css">
+		<link rel="stylesheet" href="include/google-fonts/reftkd.css">
+		<script src="include/jquery/jquery-3.6.0.min.js"></script>
+		<script src="include/bootstrap/bootstrap.min.js"></script>
+		<script src="include/sweetalert2/sweetalert2.all.min.js"></script>
+-->
 		<script src="include/js/toast.js"></script>
 <?php
+
+$images = array_values( array_filter( scandir( 'images/backgrounds' ), function ( $x ) { return preg_match( '/\.jpe?g/i', $x ); }));
+$n      = count( $images ) - 1;
+$i      = rand( 0, $n );
+$image  = $images[ $i ];
+
 if( isset( $_GET[ 'error' ])):
 	$error = base64_decode( urldecode( $_GET[ 'error' ]));
 ?>
@@ -58,8 +74,15 @@ if( isset( $_GET[ 'message' ])):
 			color: #666;
 		}
 
+		.og-contents {
+			background: url( /images/backgrounds/<?=$image ?> ) no-repeat center center fixed;
+			background-size: cover;
+			width: 100%;
+			height: 100%;
+			overflow: hidden;
+		}
+
 		body { overflow-y: hidden; background-color: #ebebeb; }
-		img { position: absolute; top: 40px; left: 0; right: 0; width: 100%; }
 
 		#login, #btn-actions {
 			width: 360px;
@@ -83,24 +106,17 @@ if( isset( $_GET[ 'message' ])):
 		#btn-actions .btn-primary { border-color: #163c61; }
 		#btn-login { width: 100%; margin-top: 24px; }
 		
-		#img-bg {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-		}
-		
 		#img-org-logo {
 			position: absolute;
-			top: 120px;
+			top: 140px;
 			left: 60px;
 			width: 200px;
 		}
 
 		#img-ref-logo {
 			position: absolute;
-			top: calc( 90% - 180px );
-			left: 90%;
+			top: calc( 100% - 322px );
+			left: calc( 100% - 220px );
 			width: 180px;
 		}
 
@@ -110,13 +126,6 @@ if( isset( $_GET[ 'message' ])):
 <?php include( 'components/header.php' ); ?>
 
 <div class="og-contents">
-<?php
-	$images = array_values( array_filter( scandir( 'images/backgrounds' ), function ( $x ) { return preg_match( '/\.jpe?g/i', $x ); }));
-	$n      = count( $images ) - 1;
-	$i      = rand( 0, $n );
-	$image  = $images[ $i ];
-?>
-	<img src="/images/backgrounds/<?= $image ?>" id="img-bg" />
 	<img src="/images/cuta-logo.png" id="img-org-logo">
 	<img src="/images/referee-white-text.png" id="img-ref-logo">
 	<div class="title-card">
@@ -125,10 +134,10 @@ if( isset( $_GET[ 'message' ])):
 	</div>
 <?php if( $user->is_auth()): ?>
 	<div class="btn-group-vertical" id="btn-actions">
-		<a class="btn btn-lg btn-primary text-light" href="sankey.php">Network Flow (Sankey) Diagram</a>
-		<a class="btn btn-lg btn-primary text-light" href="levels.php">Referee Breakdown by Levels</a>
-		<a class="btn btn-lg btn-primary text-light" href="admin.php">Manage Referee Records</a>
-		<a class="btn btn-lg btn-primary text-light" href="map.php">Find Referees Near a Venue</a>
+		<a class="btn btn-lg btn-primary text-light" href="progress.php">Referee Development Progress</a>
+		<a class="btn btn-lg btn-primary text-light" href="program.php">Referee Development Program</a>
+		<a class="btn btn-lg btn-primary text-light" href="database.php">Referee Database</a>
+		<a class="btn btn-lg btn-primary text-light" href="contact.php">Contact the Referees</a>
 		<a class="btn btn-lg btn-primary text-light" href="about.php">About RefTKD</a>
 	</div>
 <?php else: ?>

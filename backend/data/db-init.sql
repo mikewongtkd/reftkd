@@ -16,14 +16,16 @@ CREATE TABLE referee (
 	info text default null
 );
 
-DROP TABLE IF EXISTS achievement;
+DROP TABLE IF EXISTS credit;
 
-CREATE TABLE achievement (
+CREATE TABLE credit (
 	uuid text primary key,
 	name text not null,
 	tags text default null,
 	description text default null,
+	status text default null,
 	created_on datetime default (datetime( 'now' )),
+	finished datetime default null,
 	deleted datetime,
 	info text default null
 );

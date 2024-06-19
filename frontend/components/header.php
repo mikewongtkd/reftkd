@@ -1,11 +1,4 @@
     <style>
-      .og-contents {
-        margin-top: 60px;
-        margin-left: 1em;
-        margin-right: 1em;
-        margin-bottom: 60px;
-        width: calc( 100% - 2.2em );
-      }
       .nav-right {
         position: absolute;
         top: 0;
@@ -18,14 +11,13 @@
       <div class="navbar-header">
         <a class="navbar-brand" style="color: white; font-weight: bold;" href="index.php">Ref<span style="color: #33ccff;">TKD</span></a>
       </div>
-      <div id="navbar">
+      <div class="collapse navbar-collapse">
         <ul class="nav navbar-nav mr-auto">
 <?php if( $user->is_auth()): ?>
-          <li><a href="sankey.php">Network Flow (Sankey) Diagram</a></li>
+          <li class="nav-item dropdown"><a href="sankey.php">Network Flow (Sankey) Diagram</a></li>
           <li><a href="data.php">Referee Breakdown by Levels</a></li>
           <li><a href="admin.php">Manage Referee Records</a></li>
           <li><a href="map.php">Find Referees Near a Venue</a></li>
-          <li><a href="about.php">About RefTKD</a></li>
 <?php endif; ?>
           <li><a href="about.php">About</a></li>
         </ul>

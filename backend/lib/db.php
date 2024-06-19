@@ -174,20 +174,6 @@
 			return $unused;
 		}
 
-		// tables_with_center() is a function specific to the Axial Length application, remove this function for other applications
-		public static function tables_with_center() {
-			$results = [];
-			$tables  = self::tables();
-			foreach( $tables as $table ) {
-				$rows = self::retrieve( 'sqlite_master', "type='table' and name = '$table'" );
-				if( count( $rows ) == 0 ) { die( "Error (DB::has_uuid): Can't find table '$table'" ); }
-				$row = $rows[ 0 ];
-				$sql = $row[ 'sql' ];
-				if( preg_match( '/\bcenter\b/', $sql )) { $results []= $table; }
-			}
-			return $results;
-		}
-
 		function create( $table, $data, $uuid = null ) {
 			return $this->insert( $table, $data, $uuid );
 		}

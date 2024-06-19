@@ -1,15 +1,17 @@
 {
 	"roles" : {
 		"admin" : {
-			"referees"     : { "all" : "full" },
-			"events"       : { "all" : "full" },
-			"achievements" : { "all" : "full" }
+			"referee"     : { "all" : "full" },
+			"event"       : { "all" : "full" },
+			"achievement" : { "all" : "full" },
+			"media"       : { "all" : "full" }
 		},
 		"referee" : {
-			"about"        : { "all"  : "read" },
-			"referees"     : { "self" : "full" },
-			"events"       : { "all"  : "read" },
-			"achievements" : { "all"  : "read" }
+			"about"       : { "all"  : "read" },
+			"referee"     : { "self" : "full" },
+			"event"       : { "all"  : "read" },
+			"achievement" : { "own"  : "read" },
+			"media"       : { "own"  : "full" }
 		}
 	},
 	"icons" : {
@@ -18,6 +20,7 @@
 	},
 	"group_rank" : {
 		"self" : 0,
-		"all" : 1
+		"own"  : 1,
+		"all"  : 2
 	}
 }

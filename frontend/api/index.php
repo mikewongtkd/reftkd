@@ -70,6 +70,7 @@
 	// ============================================================
 		$classes = array_filter( scandir( "/usr/local/app/api/{$version}" ), function ( $item ) { return preg_match( '/\.php$/i', $item ); });
 		$classes = array_map( function( $item ) { return preg_replace( '/\.php$/i', '', $item ); }, $classes );
+		$classes = array_values( $classes );
 
 		if( ! in_array( $class, $classes )) { fail( 404 ); }
 
@@ -101,7 +102,7 @@
 		header( 'Access-Control-Allow-Origin: *' );
 		switch( $method ) {
 			case 'delete':
-				if( ! can_write( $user, $class, $uuid )) { fail( 401 ); }
+				if( ! $user->full_access( $class, $uuid )) { fail( 401 ); }
 				$object->delete( $uuid );
 				success();
 				break;
@@ -129,7 +130,7 @@
 				break;
 
 			case 'patch':
-				if( ! can_write( $user, $class, $uuid )) { fail( 401 ); }
+				if( ! $user->full_access( $class, $uuid )) { fail( 401 ); }
 				$data = file_get_contents( 'php://input' );
 				$data = json_decode( $data, true );
 				$object->patch( $data, $uuid );
@@ -137,7 +138,7 @@
 				break;
 
 			case 'post':
-				if( ! can_write( $user, $class, $uuid )) { fail( 401 ); }
+				if( ! $user->full_access( $class, $uuid )) { fail( 401 ); }
 				$object->post( $_POST, $uuid );
 				http_response_code( 200 );
 				header( 'Content-Type: application/json; charset=utf-8' );
@@ -146,26 +147,14 @@
 		}
 	}
 
-	function can_write( $user, $class, $uuid ) {
-		$tables     = DB::tables_with_center();
-		$is_center  = $class == 'centers';
-		$tables     = array_map( function( $table ) { return "{$table}s"; }, $tables );
-		$has_center = in_array( $class, $tables );
-		if( $is_center )       { return $user->full_access( $class, $row[ 'code' ],   $row[ 'uuid' ]); } 
-		else if( $has_center ) { return $user->full_access( $class, $row[ 'center' ], $row[ 'uuid' ]); } 
-		else                   { return false; }
-	}
-
 	function filter_by_read_access_policy( $user, $class, $rows ) {
 		$results    = [];
 		$has_center = array_map( function( $table ) { return "{$table}s"; }, DB::tables_with_center());
 		$has_center []= 'data'; // The 'data' table corresponds to 'emmetropization', which is a view; this line is a kludge; DB::tables_with_center() should be refactored to work with views
 
 		foreach( $rows as $row ) {
-			$access = false;
-			if( $class == 'centers' )                 { $access = $user->read_access( $class, $row[ 'code' ],   $row[ 'uuid' ]); } 
-			else if( in_array( $class, $has_center )) { $access = $user->read_access( $class, $row[ 'center' ], $row[ 'uuid' ]); }
-			else                                      { $access = $user->read_access( $class ); }
+			$access = true;
+			# $access = $user->read_access( $class );
 			if( $access ) { $results []= $row; }
 		}
 		return $results;
