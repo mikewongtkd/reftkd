@@ -1,0 +1,7 @@
+{
+	"event"    : "RefTKD\\Event",
+	"feedback" : "RefTKD\\Feedback",
+	"login"    : "RefTKD\\Login",
+	"media"    : "RefTKD\\Media",
+	"user"     : "RefTKD\\User"
+}
